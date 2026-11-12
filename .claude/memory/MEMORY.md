@@ -1,5 +1,8 @@
 # Memory index
 
+This file is `.claude/memory/MEMORY.md`, and the memory files linked below are in the same
+folder (`.claude/memory/`). It is imported into `.claude/CLAUDE.md`, so it is loaded in every session.
+
 Notes Claude keeps about this project, so they carry over between sessions.
 Each line links to one memory file. Read a file when its topic is relevant.
 
