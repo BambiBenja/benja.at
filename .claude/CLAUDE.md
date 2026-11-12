@@ -32,15 +32,15 @@ new page that nothing links to, or a very large photo that will make the page sl
 
 ## Previewing changes
 
-To show Benja a change before it's live (or before deciding to keep it), publish a preview
-as a claude.ai Artifact instead of waiting for GitHub Pages:
+To show Benja the page you're working on before it's live (or before deciding to keep a
+change), publish a preview as a claude.ai Artifact instead of waiting for GitHub Pages:
 
-1. Run `python3 .claude/scripts/sitetools.py preview`. It builds the site and writes
-   self-contained copies of every page to `_preview/` (ignored by git), then prints the
-   `file_path` and `files` to publish.
-2. Publish with the Artifact tool, using that `file_path` and `files`. Update the existing
-   preview Artifact (its link is in [memory/previews.md](memory/previews.md)) rather than
-   creating a new one each time.
+1. Run `python3 .claude/scripts/sitetools.py preview /about/`, giving the page's address on
+   the site (`/` for the home page). It builds the site and writes the page, with its
+   stylesheet and images built in, to `_preview/preview.html` (ignored by git).
+2. Publish `_preview/preview.html` with the Artifact tool. Update the existing preview
+   Artifact (its link is in [memory/previews.md](memory/previews.md)) rather than creating
+   a new one each time.
 
 ## Memory
 

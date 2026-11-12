@@ -4,10 +4,10 @@
 Commands:
   links    Report links, images, stylesheets and scripts that point to files
            that don't exist in the built site.
-  preview  Turn the built site into a preview that can be published as a
-           claude.ai Artifact: every page becomes one self-contained HTML file
-           (stylesheets, scripts, images and fonts inlined), and links between
-           pages are rewritten so they work inside the Artifact.
+  preview  Turn one page of the built site into a preview that can be published
+           as a claude.ai Artifact: a single self-contained HTML file, with
+           stylesheets, scripts, images and fonts inlined. Links to other pages
+           point to the live site.
 
 Run .claude/scripts/build.sh first (the preview command does it for you unless
 --no-build is given). Uses only the Python standard library.
@@ -21,7 +21,6 @@ import mimetypes
 import os
 import posixpath
 import re
-import shutil
 import subprocess
 import sys
 
@@ -177,12 +176,11 @@ def data_uri(rel):
 
 
 class Previewer:
-    def __init__(self, out, home, title):
-        self.out = out
-        self.home = home
+    def __init__(self, page, title, site_url):
+        self.page = page
         self.title = title
+        self.site_url = site_url.rstrip("/")
         self.warnings = []
-        self.extra_files = set()  # non-HTML files that pages link to (PDFs etc.)
 
     def warn(self, msg):
         self.warnings.append(msg)
@@ -203,7 +201,7 @@ class Previewer:
         return CSS_URL_RE.sub(repl, css)
 
     def link_target(self, url, page):
-        """New href for an internal link, relative to the page's own location."""
+        """New href for an internal link: the same page on the live site."""
         path, rest = split_url(url)
         if path == "":
             return url  # '?x' or '#x' on the same page
@@ -211,10 +209,9 @@ class Previewer:
         if target is None:
             self.warn(f"{page}: link to '{url}' not found")
             return url
-        if not target.endswith(".html"):
-            self.extra_files.add(target)
-        rel = posixpath.relpath(target, posixpath.dirname(page) or ".")
-        return rel + rest
+        if target == "index.html" or target.endswith("/index.html"):
+            target = target[: -len("index.html")]
+        return f"{self.site_url}/{target}{rest}"
 
     def rewrite_tag(self, m, page):
         tag, attr_text = m.group(1), m.group(2)
@@ -304,7 +301,7 @@ class Previewer:
         head = re.search(r"<head\b[^>]*>(.*?)</head>", text, re.I | re.S)
         body = re.search(r"<body\b([^>]*)>(.*?)</body>", text, re.I | re.S)
         if not head or not body:
-            self.warn(f"{self.home}: no <head>/<body> found; published as is")
+            self.warn(f"{self.page}: no <head>/<body> found; published as is")
             return text
         head_html = head.group(1)
         head_html = re.sub(r"<meta\s+charset[^>]*>\s*", "", head_html, flags=re.I)
@@ -322,64 +319,45 @@ class Previewer:
             f"{UNDO_ARTIFACT_RESET}\n{head_html.strip()}\n{script}{body.group(2).strip()}\n"
         )
 
-    def page(self, rel):
-        text = read(rel)
-        text = self.rewrite_scripts(text, rel)
-        text = self.rewrite_inline_styles(text, rel)
-        text = TAG_RE.sub(lambda m: self.rewrite_tag(m, rel), text)
-        if rel == self.home:
-            text = self.as_main_page(text)
-        dest = os.path.join(self.out, rel)
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
-        with open(dest, "w", encoding="utf-8") as f:
-            f.write(text)
-        return dest
+    def render(self):
+        text = read(self.page)
+        text = self.rewrite_scripts(text, self.page)
+        text = self.rewrite_inline_styles(text, self.page)
+        text = TAG_RE.sub(lambda m: self.rewrite_tag(m, self.page), text)
+        return self.as_main_page(text)
+
+
+def config_value(key):
+    """Read a simple top-level `key: value` from _config.yml."""
+    config = open(os.path.join(REPO, "_config.yml"), encoding="utf-8").read()
+    m = re.search(rf"^{key}:\s*[\"']?(.*?)[\"']?\s*$", config, re.M)
+    return m.group(1) if m else None
 
 
 def cmd_preview(args):
     if not args.no_build:
         subprocess.run([os.path.join(REPO, ".claude/scripts/build.sh")], check=True)
-    if not os.path.isfile(os.path.join(SITE, args.home)):
-        sys.exit(f"error: _site/{args.home} doesn't exist")
+    page = resolve(args.page, "index.html")
+    if page is None or not page.endswith(".html"):
+        sys.exit(f"error: no page '{args.page}' in the built site. Give the page's address "
+                 "on the site, such as / or /about/ or /about.html")
+
+    title = args.title or f"{config_value('title') or 'Site'} preview"
+    p = Previewer(page, title, config_value("url") or "")
+    text = p.render()
 
     out = os.path.abspath(args.out)
-    if os.path.isdir(out):
-        shutil.rmtree(out)
-    os.makedirs(out)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(text)
 
-    title = args.title
-    if title is None:
-        config = open(os.path.join(REPO, "_config.yml"), encoding="utf-8").read()
-        m = re.search(r"^title:\s*[\"']?(.*?)[\"']?\s*$", config, re.M)
-        title = f"{m.group(1) if m else 'Site'} preview"
-
-    p = Previewer(out, args.home, title)
-    files = {}
-    for rel in site_files(".html"):
-        dest = p.page(rel)
-        if rel != args.home:
-            files[rel] = dest
-    for rel in sorted(p.extra_files):
-        dest = os.path.join(out, rel)
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
-        shutil.copyfile(os.path.join(SITE, rel), dest)
-        files[rel] = dest
-
-    main = os.path.join(out, args.home)
-    manifest = {"file_path": main, "files": files}
-    with open(os.path.join(out, "manifest.json"), "w") as f:
-        json.dump(manifest, f, indent=2)
-
-    limit = 15 * 1024 * 1024
-    for path in [main, *files.values()]:
-        size = os.path.getsize(path)
-        if size > limit:
-            p.warn(f"{os.path.relpath(path, out)} is {size / 1e6:.1f} MB; "
-                   "the Artifact limit is 16 MB per page (15 MB per other file)")
-
+    size = os.path.getsize(out)
+    if size > 16 * 1024 * 1024:
+        p.warn(f"the preview is {size / 1e6:.1f} MB; Artifacts can be at most 16 MB "
+               "(images are embedded, so use smaller images)")
     for w in p.warnings:
         print(f"warning: {w}", file=sys.stderr)
-    print(json.dumps(manifest, indent=2))
+    print(f"Preview of /{page} written to {out}")
     return 0
 
 
@@ -388,11 +366,11 @@ def main():
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("links", help="report broken internal links and missing files")
-    pv = sub.add_parser("preview", help="build a self-contained Artifact preview")
-    pv.add_argument("--out", default=os.path.join(REPO, "_preview"),
-                    help="output folder (default: _preview/ in the repo, which git ignores)")
-    pv.add_argument("--home", default="index.html",
-                    help="page to publish as the Artifact's main page (default: index.html)")
+    pv = sub.add_parser("preview", help="build a self-contained Artifact preview of one page")
+    pv.add_argument("page", nargs="?", default="/",
+                    help="the page's address on the site, such as / or /about/ (default: /)")
+    pv.add_argument("--out", default=os.path.join(REPO, "_preview", "preview.html"),
+                    help="output file (default: _preview/preview.html, which git ignores)")
     pv.add_argument("--title", help="Artifact title (default: '<site title> preview')")
     pv.add_argument("--no-build", action="store_true", help="use the existing _site/")
     args = parser.parse_args()
