@@ -40,7 +40,8 @@ In the Claude cloud container: install with `BUNDLE_PATH=vendor/bundle`, and bui
 - The Markdown converter (kramdown) repairs broken HTML inside `.md` files on its own
   (it closes tags and escapes stray ones), so the validator mostly finds problems in
   `.html` files and layouts.
-- `sitetools.py`: `links` (broken internal links/images) and `preview` (see previews.md).- The "benja.at" cloud environment (personal, owned by the account that set up this repo) has a
+- `sitetools.py`: `links` (broken internal links/images) and `preview` (see previews.md).
+- The "benja.at" cloud environment (personal, owned by the account that set up this repo) has a
   setup script that runs `bundle install` (with `BUNDLE_PATH=vendor/bundle`) and installs
   `vnu-jar` into `~/.cache/benja-at-tools`, so checks run straight away in new sessions. If
   you change the vnu version in `check.sh`, the setup script still installs the old one
