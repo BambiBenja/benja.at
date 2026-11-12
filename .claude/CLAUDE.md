@@ -10,3 +10,7 @@ They can also edit individual files through the github interface directly.
 I suggest working only on the main branch, except if there is a real reason to do otherwise, because that will be less confusing for Benja to understand.
 
 I suggest keeping documentation about how things are set up and memories inside this .claude folder in the repo.
+
+## Memory
+
+@memory/MEMORY.md
