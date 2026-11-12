@@ -1,0 +1,16 @@
+# Die Einträge im Menü (oben rechts auf der Seite).
+# Für einen neuen Eintrag: zwei Zeilen kopieren und anpassen.
+#   titel: was im Menü steht
+#   link:  die Adresse der Seite (steht in der Seite oben bei "permalink")
+
+- titel: Startseite
+  link: /
+
+- titel: Träume
+  link: /traeume/
+
+- titel: Fantasien
+  link: /fantasien/
+
+- titel: Verzweiflungen
+  link: /verzweiflungen/

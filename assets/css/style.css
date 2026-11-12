@@ -7,33 +7,38 @@
    Eine Farbe wird als #RRGGBB geschrieben (rot, grün, blau).
    Farben zum Aussuchen: https://htmlcolorcodes.com/color-picker/ */
 :root {
-  --braun:  #5b3418;  /* normaler Text */
-  --orange: #c4561b;  /* große Überschrift, fetter Text */
-  --gruen:  #3c7a3a;  /* Zwischenüberschriften, Links */
-  --pink:   #c8417f;  /* kleine Überschriften, kursiver Text, Links beim Drüberfahren */
-  --creme:  #fff7ea;  /* der helle Kasten, auf dem der Text steht */
+  --dunkelbraun: #2a1206;  /* normaler Text, große Überschrift */
+  --orange:      #d94a00;  /* Zwischenüberschriften, fetter Text, Listenpunkte */
+  --pink:        #c2185b;  /* kleine Überschriften, Links, kursiver Text */
+  --gelb:        #ffb020;  /* im Menü: die Seite, auf der man ist; Markieren mit der Maus */
+  --rosa:        #ffe8f1;  /* Seitentitel "benja.at" und Fußzeile auf dem Fell */
+
+  /* Der durchsichtige rosa Kasten hinter dem Text.
+     Die letzte Zahl ist die Deckkraft: 0 = ganz durchsichtig, 1 = gar nicht. */
+  --kasten: rgba(255, 226, 238, 0.66);
 }
 
 /* ---------- Schriften ----------
    Die Schriftdateien liegen in assets/fonts/ (auf unserer eigenen Seite,
-   damit keine Besucherdaten an Google gehen). */
+   damit keine Besucherdaten an Google gehen).
+   Playfair Display: Überschriften. Jost: normaler Text. */
 @font-face {
-  font-family: "Fraunces";
-  src: url("../fonts/fraunces.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "Playfair Display";
+  src: url("../fonts/playfair-display.woff2") format("woff2");
+  font-weight: 400 900;
   font-display: swap;
 }
 @font-face {
-  font-family: "Nunito";
-  src: url("../fonts/nunito.woff2") format("woff2");
-  font-weight: 200 1000;
+  font-family: "Jost";
+  src: url("../fonts/jost.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Nunito";
-  src: url("../fonts/nunito-italic.woff2") format("woff2");
-  font-weight: 200 1000;
+  font-family: "Jost";
+  src: url("../fonts/jost-italic.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
@@ -55,13 +60,13 @@ html {
 }
 
 body {
-  color: var(--braun);
+  color: var(--dunkelbraun);
   background-color: transparent;
   margin: 0;
   padding: 1.5rem 1rem 1rem;
-  font-family: "Nunito", system-ui, sans-serif;
-  font-size: 1.125rem;
-  line-height: 1.65;
+  font-family: "Jost", system-ui, sans-serif;
+  font-size: 1.1875rem;
+  line-height: 1.6;
 }
 
 /* Das Fell liegt fest hinter der Seite und scrollt nicht mit */
@@ -75,48 +80,148 @@ body::before {
 
 /* ---------- Kopfzeile ---------- */
 header {
-  max-width: 42rem;
-  margin: 0 auto 1.25rem;
+  max-width: 44rem;
+  margin: 0 auto 1.5rem;
   text-align: center;
 }
 
-header a {
+.titel {
   display: inline-block;
-  font-family: "Fraunces", Georgia, serif;
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-  font-weight: 800;
-  font-size: 2.6rem;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: 3rem;
   line-height: 1.1;
-  color: var(--creme);
+  color: var(--rosa);
   text-decoration: none;
-  text-shadow: 0 2px 0 #4a2610, 0 4px 14px rgba(40, 18, 6, 0.55);
+  text-shadow: 0 2px 0 var(--dunkelbraun), 0 4px 16px rgba(30, 10, 2, 0.6);
   transition: transform 0.2s;
 }
 
-header a:hover {
+.titel:hover {
+  color: var(--rosa);
   transform: rotate(-3deg) scale(1.04);
 }
 
-/* ---------- Der helle Kasten mit dem Inhalt ---------- */
-main {
-  position: relative;
-  max-width: 42rem;
-  margin: 0 auto;
-  padding: 2rem 2.25rem;
-  background-color: var(--creme);
-  border-radius: 1.75rem;
-  box-shadow: 0 10px 30px rgba(40, 18, 6, 0.45);
+/* ---------- Menü (oben rechts) ---------- */
+.menu {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  text-align: left;
 }
 
-/* Gestrichelte "Naht" rundherum, wie aufgenäht */
-main::before {
+/* Der Knopf mit den drei Strichen */
+.menu summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  list-style: none;
+  cursor: pointer;
+  background-color: var(--dunkelbraun);
+  box-shadow: 0 4px 14px rgba(30, 10, 2, 0.45);
+}
+
+.menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu summary:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* Drei Striche, die zu einem X werden, wenn das Menü offen ist */
+.menu-zeichen,
+.menu-zeichen::before,
+.menu-zeichen::after {
+  display: block;
+  width: 1.5rem;
+  height: 3px;
+  background-color: var(--rosa);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.menu-zeichen {
+  position: relative;
+}
+
+.menu-zeichen::before,
+.menu-zeichen::after {
   content: "";
   position: absolute;
-  inset: 0.6rem;
-  border: 2px dashed var(--pink);
-  border-radius: 1.3rem;
-  opacity: 0.45;
-  pointer-events: none;
+  left: 0;
+}
+
+.menu-zeichen::before {
+  top: -8px;
+}
+
+.menu-zeichen::after {
+  top: 8px;
+}
+
+.menu[open] .menu-zeichen {
+  background-color: transparent;
+}
+
+.menu[open] .menu-zeichen::before {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu[open] .menu-zeichen::after {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Die Liste, die aufklappt */
+.menu nav {
+  position: absolute;
+  top: 3.5rem;
+  right: 0;
+  min-width: 13rem;
+  padding: 0.5rem 0;
+  background-color: var(--dunkelbraun);
+  box-shadow: 0 8px 24px rgba(30, 10, 2, 0.5);
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu nav a {
+  display: block;
+  padding: 0.5rem 1.25rem;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--rosa);
+  text-decoration: none;
+}
+
+.menu nav a:hover,
+.menu nav a:focus-visible {
+  color: var(--gelb);
+  outline: none;
+}
+
+/* Die Seite, auf der man gerade ist */
+.menu nav a[aria-current="page"] {
+  color: var(--gelb);
+}
+
+/* ---------- Der rosa Kasten mit dem Inhalt ---------- */
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.25rem 2.5rem;
+  background-color: var(--kasten);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 10px 30px rgba(30, 10, 2, 0.35);
 }
 
 main > :first-child {
@@ -129,34 +234,31 @@ main > :last-child {
 
 /* ---------- Überschriften ---------- */
 h1, h2, h3, h4 {
-  font-family: "Fraunces", Georgia, serif;
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-  line-height: 1.2;
-  margin: 1.6em 0 0.5em;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 1.5em 0 0.5em;
 }
 
 h1 {
-  color: var(--orange);
-  font-size: 2.3rem;
-  font-weight: 800;
+  color: var(--dunkelbraun);
+  font-size: 2.5rem;
 }
 
 h2 {
-  color: var(--gruen);
-  font-size: 1.7rem;
-  font-weight: 700;
+  color: var(--orange);
+  font-size: 1.8rem;
 }
 
 h3, h4 {
   color: var(--pink);
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-size: 1.35rem;
 }
 
 /* ---------- Text ---------- */
 strong {
   color: var(--orange);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 em {
@@ -164,43 +266,39 @@ em {
 }
 
 a {
-  color: var(--gruen);
-  font-weight: 700;
+  color: var(--pink);
+  font-weight: 500;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--pink);
+  color: var(--orange);
 }
 
 /* Farbe, wenn man Text mit der Maus markiert */
 ::selection {
-  background-color: #f7c6dc;
-  color: var(--braun);
+  background-color: var(--gelb);
+  color: var(--dunkelbraun);
 }
 
-/* ---------- Listen: bunte Punkte ---------- */
+/* ---------- Listen: farbige Punkte ---------- */
 ul {
   padding-left: 1.5rem;
 }
 
-ul li::marker {
+main ul li::marker {
   color: var(--orange);
   font-size: 1.2em;
 }
 
-ul ul li::marker {
+main ul ul li::marker {
   color: var(--pink);
 }
 
-ul ul ul li::marker {
-  color: var(--gruen);
-}
-
-ol li::marker {
-  color: var(--gruen);
-  font-weight: 800;
+main ol li::marker {
+  color: var(--orange);
+  font-weight: 700;
 }
 
 /* ---------- Trennlinie (--- in Markdown): drei Tupfen ---------- */
@@ -209,47 +307,51 @@ hr {
   height: 0.75rem;
   margin: 2.25rem 0;
   background:
-    radial-gradient(circle, var(--orange) 0.3rem, transparent 0.33rem) calc(50% - 1.5rem) 50% / 0.75rem 0.75rem no-repeat,
-    radial-gradient(circle, var(--gruen)  0.3rem, transparent 0.33rem) 50% 50% / 0.75rem 0.75rem no-repeat,
-    radial-gradient(circle, var(--pink)   0.3rem, transparent 0.33rem) calc(50% + 1.5rem) 50% / 0.75rem 0.75rem no-repeat;
+    radial-gradient(circle, var(--orange)      0.3rem, transparent 0.33rem) calc(50% - 1.5rem) 50% / 0.75rem 0.75rem no-repeat,
+    radial-gradient(circle, var(--pink)        0.3rem, transparent 0.33rem) 50% 50% / 0.75rem 0.75rem no-repeat,
+    radial-gradient(circle, var(--dunkelbraun) 0.3rem, transparent 0.33rem) calc(50% + 1.5rem) 50% / 0.75rem 0.75rem no-repeat;
 }
 
 /* ---------- Fußzeile ---------- */
 footer {
-  max-width: 42rem;
+  max-width: 44rem;
   margin: 1.5rem auto 0;
   text-align: center;
-  font-size: 0.9rem;
-  color: var(--creme);
-  text-shadow: 0 1px 3px rgba(40, 18, 6, 0.8);
+  font-size: 0.95rem;
+  color: var(--rosa);
+  text-shadow: 0 1px 3px rgba(30, 10, 2, 0.9);
 }
 
 /* ---------- Schmale Bildschirme (Handy) ---------- */
 @media (max-width: 34rem) {
   body {
     padding: 1rem 0.75rem;
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
   }
 
-  header a {
-    font-size: 2.1rem;
+  /* Platz lassen, damit der Titel nicht unter dem Menü-Knopf liegt */
+  header {
+    padding: 0 3rem;
+  }
+
+  .titel {
+    font-size: 2.3rem;
+  }
+
+  .menu {
+    top: 0.75rem;
+    right: 0.75rem;
   }
 
   main {
     padding: 1.5rem 1.25rem;
-    border-radius: 1.25rem;
-  }
-
-  main::before {
-    inset: 0.4rem;
-    border-radius: 1rem;
   }
 
   h1 {
-    font-size: 1.9rem;
+    font-size: 2rem;
   }
 
   h2 {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
   }
 }

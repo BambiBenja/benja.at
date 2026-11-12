@@ -25,9 +25,9 @@ Hier finden Sie:
 
 Außerdem: 
 * Benjas
-    - Träume
-    - Fantasien
-    - Verzweiflungen
+    - [Träume](/traeume/)
+    - [Fantasien](/fantasien/)
+    - [Verzweiflungen](/verzweiflungen/)
 
 
 
