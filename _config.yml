@@ -3,6 +3,9 @@ description: Personal website
 url: "https://benja.at"
 baseurl: ""
 
+# Disable the default GitHub Pages theme (jekyll-theme-primer).
+theme: null
+
 exclude:
   - Gemfile
   - Gemfile.lock
