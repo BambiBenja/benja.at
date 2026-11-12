@@ -1,0 +1,11 @@
+title: benja.at
+description: Personal website
+url: "https://benja.at"
+baseurl: ""
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/
+  - .bundle/
