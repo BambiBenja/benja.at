@@ -1,4 +1,4 @@
-Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type/Jost) Jost-Italic[wght].ttf: Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type/Jost)
+Copyright (c) 2007-2025 SIL Global Kedebideri-Medium.ttf: Copyright (c) 2007-2025 SIL Global Kedebideri-SemiBold.ttf: Copyright (c) 2007-2025 SIL Global Kedebideri-Bold.ttf: Copyright (c) 2007-2025 SIL Global Kedebideri-ExtraBold.ttf: Copyright (c) 2007-2025 SIL Global Kedebideri-Black.ttf: Copyright (c) 2007-2025 SIL Global
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

@@ -21,25 +21,35 @@
 /* ---------- Schriften ----------
    Die Schriftdateien liegen in assets/fonts/ (auf unserer eigenen Seite,
    damit keine Besucherdaten an Google gehen).
-   Playfair Display: Überschriften. Jost: normaler Text. */
+   Syncopate: Überschriften, Titel und Menü. Kedebideri: normaler Text. */
 @font-face {
-  font-family: "Playfair Display";
-  src: url("../fonts/playfair-display.woff2") format("woff2");
-  font-weight: 400 900;
+  font-family: "Syncopate";
+  src: url("../fonts/syncopate-400.woff2") format("woff2");
+  font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "Jost";
-  src: url("../fonts/jost.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
+  font-family: "Syncopate";
+  src: url("../fonts/syncopate-700.woff2") format("woff2");
+  font-weight: 700;
   font-display: swap;
 }
 @font-face {
-  font-family: "Jost";
-  src: url("../fonts/jost-italic.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: italic;
+  font-family: "Kedebideri";
+  src: url("../fonts/kedebideri-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kedebideri";
+  src: url("../fonts/kedebideri-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kedebideri";
+  src: url("../fonts/kedebideri-700.woff2") format("woff2");
+  font-weight: 700;
   font-display: swap;
 }
 
@@ -64,8 +74,8 @@ body {
   background-color: transparent;
   margin: 0;
   padding: 1.5rem 1rem 1rem;
-  font-family: "Jost", system-ui, sans-serif;
-  font-size: 1.1875rem;
+  font-family: "Kedebideri", system-ui, sans-serif;
+  font-size: 1.25rem;
   line-height: 1.6;
 }
 
@@ -87,8 +97,8 @@ header {
 
 .titel {
   display: inline-block;
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 900;
+  font-family: "Syncopate", "Arial Black", sans-serif;
+  font-weight: 700;
   font-size: 3rem;
   line-height: 1.1;
   color: var(--rosa);
@@ -195,9 +205,9 @@ header {
 .menu nav a {
   display: block;
   padding: 0.5rem 1.25rem;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Syncopate", "Arial Black", sans-serif;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: var(--rosa);
   text-decoration: none;
 }
@@ -234,25 +244,28 @@ main > :last-child {
 
 /* ---------- Überschriften ---------- */
 h1, h2, h3, h4 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 900;
+  font-family: "Syncopate", "Arial Black", sans-serif;
+  font-weight: 700;
+  /* Syncopate ist sehr breit: lange Wörter dürfen getrennt werden */
+  hyphens: auto;
+  overflow-wrap: break-word;
   line-height: 1.15;
   margin: 1.5em 0 0.5em;
 }
 
 h1 {
   color: var(--dunkelbraun);
-  font-size: 2.5rem;
+  font-size: 2.2rem;
 }
 
 h2 {
   color: var(--orange);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 h3, h4 {
   color: var(--pink);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
 }
 
 /* ---------- Text ---------- */
@@ -326,16 +339,12 @@ footer {
 @media (max-width: 34rem) {
   body {
     padding: 1rem 0.75rem;
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
   }
 
   /* Platz lassen, damit der Titel nicht unter dem Menü-Knopf liegt */
   header {
     padding: 0 3rem;
-  }
-
-  .titel {
-    font-size: 2.3rem;
   }
 
   .menu {
@@ -347,11 +356,19 @@ footer {
     padding: 1.5rem 1.25rem;
   }
 
+  .titel {
+    font-size: 1.9rem;
+  }
+
   h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  h3, h4 {
+    font-size: 1.05rem;
   }
 }

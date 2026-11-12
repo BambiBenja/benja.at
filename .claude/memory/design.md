@@ -19,10 +19,14 @@ Current state:
 - **Content box** (`main`): translucent light pink (`--kasten`, rgba alpha 0.66) with a 3px
   backdrop blur, square corners, soft shadow. Lower alpha shows more fur but costs contrast.
 - **Fonts**, self-hosted in `assets/fonts/` (Google Fonts from Google's servers is a GDPR
-  problem in Austria): Playfair Display 900 (title, headings, menu) and Jost (body, plus
-  italic), from the npm `@fontsource-variable/*` packages, latin subset, OFL licences beside.
-  Font comparison Artifact for Benja: https://claude.ai/artifact/23ZHRAqfi7wPiaAkHXoJEa
-  (options A–G; source isn't in the repo, it was a one-off page).
+  problem in Austria), from the npm `@fontsource/*` packages, latin subset, licences beside.
+  Benja picked them themself (Nov 2026, after a comparison page of other options):
+  **Syncopate** 700 for the title, headings and menu, **Kedebideri** 400/500/700 for text.
+  Syncopate is very wide and unicase (lowercase are small capitals), so headings are smaller
+  than usual, shrink further on phones, and use `hyphens: auto` (the page is `lang="de"`);
+  check long single words (e.g. "Verzweiflungen") at phone width after changing sizes.
+  Kedebideri has no italic, so the browser slants it for `*kursiv*`.
+  Earlier: Fraunces + Nunito (rejected as "country"), then Playfair Display + Jost.
 - **Colours**: CSS variables at the top of `assets/css/style.css` with German comments:
   dunkelbraun (text, h1), orange (h2, bold, list dots), pink (h3, links, italic),
   gelb (menu highlight, text selection), rosa (title/footer on the fur), kasten.
