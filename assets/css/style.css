@@ -1,3 +1,14 @@
+/* Width and height include padding and border, which is easier to reason about */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Images shrink to fit the page instead of overflowing it */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 body {
   /* Page colors: text and background */
   color: #222222;

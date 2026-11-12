@@ -10,7 +10,8 @@ Jekyll site hosted on GitHub Pages at https://benja.at.
   Pages use `layout: default` in their front matter.
 - **Stylesheet**: `assets/css/style.css`, linked from the layout. Light colors only: no
   automatic dark mode (turned off on purpose so color changes stay simple for Benja).
-  Text and background colors are set on `body`.
+  Text and background colors are set on `body`. No full CSS reset (Markdown content relies
+  on default spacing); only `box-sizing: border-box` and `img { max-width: 100% }`.
 - **Pages**: `index.md` (home) and `404.md` (published as `/404.html`).
 - **`exclude` in `_config.yml`**: setting it replaces Jekyll's default list, so `vendor/`
   and `.bundle/` are listed explicitly. Without that, a local `bundle install` into
