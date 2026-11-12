@@ -12,4 +12,5 @@ line here up to date, and commit it to `main`. Keep this index short: one line
 per memory. Delete or fix memories that turn out to be wrong.
 
 - [Site setup](site-setup.md): how the Jekyll site is built and configured, and why
+- [Previews](previews.md): the preview Artifact's link, and how the preview script works
 - [Git workflow](git-workflow.md): work on `main`; the old `claude/…` branch

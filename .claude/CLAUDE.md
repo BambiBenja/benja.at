@@ -11,6 +11,37 @@ I suggest working only on the main branch, except if there is a real reason to d
 
 I suggest keeping documentation about how things are set up and memories inside this .claude folder in the repo.
 
+## Checking changes
+
+Run `.claude/scripts/check.sh` after every change to the site, before committing. It builds
+the site, validates the HTML and CSS with the W3C Nu Html Checker, and reports links and
+images that point to files that don't exist. It takes a few seconds (in a fresh container,
+a minute or two the first time, to install the gems and the validator). Fix what it reports
+before pushing: GitHub Pages takes a few minutes to publish, so it's much quicker to catch
+mistakes here than on the live site.
+
+Errors name files in `_site/`, the generated site. Fix them in the source: a layout in
+`_layouts/`, the page's own `.md` or `.html` file, or the stylesheet in `assets/css/`.
+
+Benja may edit files directly on GitHub. At the start of every session, `git pull` and run
+the check. If it finds problems, look at the recent commits (`git log`, `git show`) to see
+what changed, explain the problem to Benja in plain words, and offer to fix it, or to walk
+them through fixing it themselves if they'd like to learn. Don't silently rewrite Benja's
+changes. Also look over their recent changes for things the check can't catch, such as a
+new page that nothing links to, or a very large photo that will make the page slow.
+
+## Previewing changes
+
+To show Benja a change before it's live (or before deciding to keep it), publish a preview
+as a claude.ai Artifact instead of waiting for GitHub Pages:
+
+1. Run `python3 .claude/scripts/sitetools.py preview`. It builds the site and writes
+   self-contained copies of every page to `_preview/` (ignored by git), then prints the
+   `file_path` and `files` to publish.
+2. Publish with the Artifact tool, using that `file_path` and `files`. Update the existing
+   preview Artifact (its link is in [memory/previews.md](memory/previews.md)) rather than
+   creating a new one each time.
+
 ## Memory
 
 @memory/MEMORY.md

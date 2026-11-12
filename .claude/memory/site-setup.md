@@ -29,3 +29,15 @@ bundle exec jekyll serve
 
 In the Claude cloud container: install with `BUNDLE_PATH=vendor/bundle`, and build with
 `bundle exec jekyll build` to check that the site still builds before pushing.
+
+## Tooling (in `.claude/scripts/`)
+
+- `build.sh`: installs the gems if needed and builds `_site/`.
+- `check.sh`: builds, then validates HTML/CSS with vnu (Nu Html Checker, from the npm package
+  `vnu-jar`, pinned in the script and installed to `~/.cache/benja-at-tools`; needs Java),
+  then runs `sitetools.py links`. vnu's "trailing slash on void elements" notes are
+  filtered out: the Markdown converter generates `<img ... />` and we can't change that.
+- The Markdown converter (kramdown) repairs broken HTML inside `.md` files on its own
+  (it closes tags and escapes stray ones), so the validator mostly finds problems in
+  `.html` files and layouts.
+- `sitetools.py`: `links` (broken internal links/images) and `preview` (see previews.md).
