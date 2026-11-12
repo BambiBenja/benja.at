@@ -1,33 +1,255 @@
-/* Width and height include padding and border, which is easier to reason about */
+/* ============================================================
+   benja.at – Reh-Design
+   ============================================================ */
+
+/* ---------- Farben ----------
+   Hier kannst du die Farben der ganzen Seite ändern.
+   Eine Farbe wird als #RRGGBB geschrieben (rot, grün, blau).
+   Farben zum Aussuchen: https://htmlcolorcodes.com/color-picker/ */
+:root {
+  --braun:  #5b3418;  /* normaler Text */
+  --orange: #c4561b;  /* große Überschrift, fetter Text */
+  --gruen:  #3c7a3a;  /* Zwischenüberschriften, Links */
+  --pink:   #c8417f;  /* kleine Überschriften, kursiver Text, Links beim Drüberfahren */
+  --creme:  #fff7ea;  /* der helle Kasten, auf dem der Text steht */
+}
+
+/* ---------- Schriften ----------
+   Die Schriftdateien liegen in assets/fonts/ (auf unserer eigenen Seite,
+   damit keine Besucherdaten an Google gehen). */
+@font-face {
+  font-family: "Fraunces";
+  src: url("../fonts/fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/nunito.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/nunito-italic.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Breite und Höhe enthalten Innenabstand und Rand: einfacher zu rechnen */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* Images shrink to fit the page instead of overflowing it */
+/* Bilder werden kleiner, damit sie nicht aus der Seite ragen */
 img {
   max-width: 100%;
   height: auto;
 }
 
-body {
-  /* Page colors: text and background */
-  color: #222222;
-  background-color: #ffffff;
+/* ---------- Seite und Reh-Fell ---------- */
+html {
+  background-color: #8a4a22; /* Fellfarbe, solange das Bild noch lädt */
+}
 
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 1rem;
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
+body {
+  color: var(--braun);
+  background-color: transparent;
+  margin: 0;
+  padding: 1.5rem 1rem 1rem;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+/* Das Fell liegt fest hinter der Seite und scrollt nicht mit */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/rehfell.jpg") center / cover no-repeat;
+}
+
+/* ---------- Kopfzeile ---------- */
+header {
+  max-width: 42rem;
+  margin: 0 auto 1.25rem;
+  text-align: center;
 }
 
 header a {
-  font-weight: bold;
+  display: inline-block;
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-weight: 800;
+  font-size: 2.6rem;
+  line-height: 1.1;
+  color: var(--creme);
   text-decoration: none;
+  text-shadow: 0 2px 0 #4a2610, 0 4px 14px rgba(40, 18, 6, 0.55);
+  transition: transform 0.2s;
 }
 
+header a:hover {
+  transform: rotate(-3deg) scale(1.04);
+}
+
+/* ---------- Der helle Kasten mit dem Inhalt ---------- */
+main {
+  position: relative;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 2.25rem;
+  background-color: var(--creme);
+  border-radius: 1.75rem;
+  box-shadow: 0 10px 30px rgba(40, 18, 6, 0.45);
+}
+
+/* Gestrichelte "Naht" rundherum, wie aufgenäht */
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0.6rem;
+  border: 2px dashed var(--pink);
+  border-radius: 1.3rem;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+main > :first-child {
+  margin-top: 0;
+}
+
+main > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Überschriften ---------- */
+h1, h2, h3, h4 {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  line-height: 1.2;
+  margin: 1.6em 0 0.5em;
+}
+
+h1 {
+  color: var(--orange);
+  font-size: 2.3rem;
+  font-weight: 800;
+}
+
+h2 {
+  color: var(--gruen);
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+h3, h4 {
+  color: var(--pink);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* ---------- Text ---------- */
+strong {
+  color: var(--orange);
+  font-weight: 800;
+}
+
+em {
+  color: var(--pink);
+}
+
+a {
+  color: var(--gruen);
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--pink);
+}
+
+/* Farbe, wenn man Text mit der Maus markiert */
+::selection {
+  background-color: #f7c6dc;
+  color: var(--braun);
+}
+
+/* ---------- Listen: bunte Punkte ---------- */
+ul {
+  padding-left: 1.5rem;
+}
+
+ul li::marker {
+  color: var(--orange);
+  font-size: 1.2em;
+}
+
+ul ul li::marker {
+  color: var(--pink);
+}
+
+ul ul ul li::marker {
+  color: var(--gruen);
+}
+
+ol li::marker {
+  color: var(--gruen);
+  font-weight: 800;
+}
+
+/* ---------- Trennlinie (--- in Markdown): drei Tupfen ---------- */
+hr {
+  border: 0;
+  height: 0.75rem;
+  margin: 2.25rem 0;
+  background:
+    radial-gradient(circle, var(--orange) 0.3rem, transparent 0.33rem) calc(50% - 1.5rem) 50% / 0.75rem 0.75rem no-repeat,
+    radial-gradient(circle, var(--gruen)  0.3rem, transparent 0.33rem) 50% 50% / 0.75rem 0.75rem no-repeat,
+    radial-gradient(circle, var(--pink)   0.3rem, transparent 0.33rem) calc(50% + 1.5rem) 50% / 0.75rem 0.75rem no-repeat;
+}
+
+/* ---------- Fußzeile ---------- */
 footer {
-  margin-top: 3rem;
-  font-size: 0.875rem;
-  opacity: 0.7;
+  max-width: 42rem;
+  margin: 1.5rem auto 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--creme);
+  text-shadow: 0 1px 3px rgba(40, 18, 6, 0.8);
+}
+
+/* ---------- Schmale Bildschirme (Handy) ---------- */
+@media (max-width: 34rem) {
+  body {
+    padding: 1rem 0.75rem;
+    font-size: 1.0625rem;
+  }
+
+  header a {
+    font-size: 2.1rem;
+  }
+
+  main {
+    padding: 1.5rem 1.25rem;
+    border-radius: 1.25rem;
+  }
+
+  main::before {
+    inset: 0.4rem;
+    border-radius: 1rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  h2 {
+    font-size: 1.45rem;
+  }
 }

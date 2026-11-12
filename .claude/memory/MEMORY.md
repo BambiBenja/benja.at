@@ -14,3 +14,4 @@ per memory. Delete or fix memories that turn out to be wrong.
 - [Site setup](site-setup.md): how the Jekyll site is built and configured, and why
 - [Previews](previews.md): the preview Artifact's link, and how the one-page preview script works
 - [Git workflow](git-workflow.md): work on `main`; the old `claude/…` branch
+- [Design](design.md): the deer theme, fur background, fonts and colours, and why
