@@ -1,8 +1,8 @@
-:root {
-  color-scheme: light dark;
-}
-
 body {
+  /* Page colors: text and background */
+  color: #222222;
+  background-color: #ffffff;
+
   max-width: 40rem;
   margin: 0 auto;
   padding: 1rem;
