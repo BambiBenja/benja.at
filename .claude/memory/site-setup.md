@@ -8,9 +8,7 @@ Jekyll site hosted on GitHub Pages at https://benja.at.
   `jekyll-theme-primer`. All styling comes from our own files.
 - **Layout**: a single layout, `_layouts/default.html` (header, main, footer).
   Pages use `layout: default` in their front matter.
-- **Stylesheet**: `assets/css/main.css`. It's named `main.css` for historical reasons,
-  not because `style.css` would clash. (An early assumption that it clashed with the
-  Primer theme turned out to be wrong.)
+- **Stylesheet**: `assets/css/style.css`, linked from the layout.
 - **Pages**: `index.md` (home) and `404.md` (published as `/404.html`).
 - **`exclude` in `_config.yml`**: setting it replaces Jekyll's default list, so `vendor/`
   and `.bundle/` are listed explicitly. Without that, a local `bundle install` into
