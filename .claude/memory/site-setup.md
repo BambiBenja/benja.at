@@ -12,7 +12,15 @@ Jekyll site hosted on GitHub Pages at https://benja.at.
   automatic dark mode (turned off on purpose so color changes stay simple for Benja).
   Text and background colors are set on `body`. No full CSS reset (Markdown content relies
   on default spacing); only `box-sizing: border-box` and `img { max-width: 100% }`.
-- **Pages**: `index.md` (home) and `404.md` (published as `/404.html`).
+- **Pages**: `index.md` (home), `404.md` (published as `/404.html`), and one `.md` file
+  per page (`traeume.md`, …, each linked from `_data/menu.yml`).
+- **Front matter is optional** (asked for by Benja's tech support, Nov 2026): Benja created
+  `bezweiflungen.md` on GitHub with no `---` block. `_config.yml` lists
+  `jekyll-optional-front-matter`, `jekyll-default-layout` and `jekyll-titles-from-headings`
+  (GitHub Pages enables them by default anyway), sets `remove_originals: true` so the raw
+  `.md` isn't published too, and `permalink: pretty` so such a page lives at `/name/`
+  (without it, it was `/name.html` and the menu's `/name/` link was a 404).
+  The link checker treated `/name/` as `/name.html` and missed that; fixed in `sitetools.py`.
 - **`exclude` in `_config.yml`**: setting it replaces Jekyll's default list, so `vendor/`
   and `.bundle/` are listed explicitly. Without that, a local `bundle install` into
   `vendor/` breaks the build. Files and folders starting with `.` (such as `.claude/`) are

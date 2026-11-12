@@ -6,6 +6,22 @@ baseurl: ""
 # Disable the default GitHub Pages theme (jekyll-theme-primer).
 theme: null
 
+# Page addresses end in a slash: bezweiflungen.md becomes /bezweiflungen/
+# (a page's own "permalink" line still wins).
+permalink: pretty
+
+# Pages don't need front matter (the --- block at the top). Such a page gets the
+# default layout, and its title from its first heading. GitHub Pages enables these
+# three plugins anyway; listing them makes that explicit and keeps local builds the same.
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
+
+# Don't also publish the raw .md file next to a page that has no front matter.
+optional_front_matter:
+  remove_originals: true
+
 exclude:
   - Gemfile
   - Gemfile.lock

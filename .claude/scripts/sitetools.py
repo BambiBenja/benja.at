@@ -80,6 +80,8 @@ def resolve(url, from_file):
     /page -> /page.html.
     """
     path, _ = split_url(html.unescape(url))
+    # GitHub Pages serves /dir/ only from dir/index.html, never from dir.html.
+    wants_dir = path.endswith("/") and path != "/"
     if path.startswith("/"):
         target = path.lstrip("/")
     else:
@@ -87,7 +89,10 @@ def resolve(url, from_file):
     target = posixpath.normpath(target)
     if target == "." or target.startswith(".."):
         target = "" if target == "." else target
-    candidates = [target, posixpath.join(target, "index.html"), target + ".html"]
+    if wants_dir:
+        candidates = [posixpath.join(target, "index.html")]
+    else:
+        candidates = [target, posixpath.join(target, "index.html"), target + ".html"]
     for c in candidates:
         if c and not c.startswith("..") and os.path.isfile(os.path.join(SITE, c)):
             return c
