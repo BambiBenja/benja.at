@@ -33,5 +33,7 @@ Current state:
 - **Menu**: `<details class="menu">` fixed top right in `_layouts/default.html`, entries
   from `_data/menu.yml` (titel/link, German comments so Benja can add pages).
   `assets/js/menu.js` closes it on outside click or Esc.
+- **Links**: `assets/js/links.js` makes links to other websites open in a new tab (Benja wants
+  that); links within benja.at stay in the same tab. Works for every page automatically.
 - **Pages**: `traeume.md`, `fantasien.md`, `verzweiflungen.md` (placeholders), linked from
   the menu and from the bullets on the home page.
