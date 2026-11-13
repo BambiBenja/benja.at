@@ -15,3 +15,4 @@ per memory. Delete or fix memories that turn out to be wrong.
 - [Previews](previews.md): the preview Artifact's link, and how the one-page preview script works
 - [Git workflow](git-workflow.md): work on `main`; the old `claude/…` branch
 - [Design](design.md): the deer theme, Benja's feedback, fur, fonts, colours and menu
+- [Generated assets](generated-assets.md): keep generators in the repo; how the fur image and fonts were made

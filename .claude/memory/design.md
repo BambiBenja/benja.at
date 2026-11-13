@@ -13,7 +13,7 @@ scrolling; fun but readable type. Second round of feedback (same month):
 
 Current state:
 
-- **Background**: `assets/images/rehfell.jpg`, painted by `.claude/scripts/fur.py`
+- **Background**: `assets/images/rehfell.jpg`, painted by `.claude/scripts/fur.py` (see generated-assets.md)
   (`spots` = fawn spots, current; `plain` = no spots). Fixed via `body::before
   { position: fixed }` (`background-attachment: fixed` doesn't work on iPhones).
 - **Content box** (`main`): translucent light pink (`--kasten`, rgba alpha 0.66) with a 3px
